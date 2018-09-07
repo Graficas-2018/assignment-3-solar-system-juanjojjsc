@@ -58,16 +58,51 @@ var neptuneDistanceToSun = 4495;
 var plutoDistanceToSun = 5906;
 
 // Planet Radius in Thousands of Kilometers
-var sunRadius = 69;
-var mercuryRadius = .2;
-var venusRadius = .6;
-var earthRadius = .63;
-var marsRadius = .33;
-var jupiterRadius = 6.9;
-var saturnRadius = 5.8;
-var uranusRadius = 2.5;
-var neptuneRadius = 2.4;
-var plutoRadius = .11;
+var sunRadius = 23;
+var mercuryRadius = 2;
+var venusRadius = 6;
+var earthRadius = 6.3;
+var marsRadius = 3.3;
+var jupiterRadius = 69;
+var saturnRadius = 58;
+var uranusRadius = 25;
+var neptuneRadius = 24;
+var plutoRadius = 1.1;
+
+// Planet Rotation Speed in Km/s
+var sunRotation = .002;
+var mercuryRotation = 0.0003;
+var venusRotation = 0.00018;
+var earthRotation = 0.046;
+var marsRotation = 0.024;
+var jupiterRotation = .0126;
+var saturnRotation = .00987;
+var uranusRotation = .00259;
+var neptuneRotation = .00268;
+var plutoRotation = 0.0013;
+
+// Planet Translation Speed in Km/s ^-4
+var mercuryTranslation = 0.0047;
+var venusTranslation = 0.0035;
+var earthTranslation = 0.0029;
+var marsTranslation = 0.0024;
+var jupiterTranslation = 0.0013;
+var saturnTranslation = 0.0009;
+var uranusTranslation = 0.0006;
+var neptuneTranslation = 0.0005;
+var plutoTranslation = 0.0004;
+
+// Planet Satellites
+var mercurySatellites = 0;
+var venusSatelittes = 0;
+var earthSatelittes = 1;
+var marsSatelittes = 2;
+var jupiterSatelittes = 79;
+var saturnSatelittes = 62;
+var uranusSatelittes = 27;
+var neptuneSatelittes = 14;
+var plutoSatelittes = 5; 
+
 
 
 
@@ -89,29 +124,30 @@ function animate() {
     // Rotate the sun
     // ?
 
-    // Planet translation around the sun
-    mercuryGroup.rotation.y += 0.0075;
-    venusGroup.rotation.y += 0.0061;
-    earthGroup.rotation.y += 0.0043;
-    marsGroup.rotation.y += angle;
-    jupiterGroup.rotation.y += angle;
-    saturnGroup.rotation.y += angle;
-    uranusGroup.rotation.y += angle;
-    neptuneGroup.rotation.y += angle;
-    plutoGroup.rotation.y += angle;
+    // Planet translation around the sun in days ^-4 km/s
+    mercuryGroup.rotation.y += mercuryTranslation;
+    venusGroup.rotation.y += venusTranslation;
+    earthGroup.rotation.y += earthTranslation;
+    marsGroup.rotation.y += marsTranslation;
+    jupiterGroup.rotation.y += jupiterTranslation;
+    saturnGroup.rotation.y += saturnTranslation;
+    uranusGroup.rotation.y += uranusTranslation;
+    neptuneGroup.rotation.y += neptuneTranslation;
+    plutoGroup.rotation.y += plutoTranslation;
 
 
     // Planet rotation on its axis
-    mercury.rotation.y += angle;
+    sun.rotation.y += sunRotation;
+    mercury.rotation.y += mercuryRotation;
     // VENUS ROTATES TO THE OPPOSITE SIDE
-    venus.rotation.y -= angle;
-    earth.rotation.y += angle;
-    mars.rotation.y += angle;
-    jupiter.rotation.y += angle;
-    saturn.rotation.y += angle;
-    uranus.rotation.y += angle;
-    neptune.rotation.y += angle;
-    pluto.rotation.y += angle;
+    venus.rotation.y -= venusRotation;
+    earth.rotation.y += earthRotation;
+    mars.rotation.y += marsRotation;
+    jupiter.rotation.y += jupiterRotation;
+    saturn.rotation.y += saturnRotation;
+    uranus.rotation.y += uranusRotation;
+    neptune.rotation.y += neptuneRotation;
+    pluto.rotation.y += plutoRotation;
 
 
 }
@@ -275,23 +311,23 @@ function createScene(canvas) {
 
     // Create the Planets
     sun = createPlanet("sun",sunRadius,50,50,sunMapUrl);
-    mercury = createPlanet("mercury",3,50,50,mercuryMapUrl,mercuryBumpMapUrl);
+    mercury = createPlanet("mercury",mercuryRadius,50,50,mercuryMapUrl,mercuryBumpMapUrl);
     mercury.position.x = mercuryDistanceToSun;
-    venus = createPlanet("venus",5,50,50,venusMapUrl,venusBumpMapUrl);
+    venus = createPlanet("venus",venusRadius,50,50,venusMapUrl,venusBumpMapUrl);
     venus.position.x = venusDistanceToSun;
-    earth = createPlanet("earth",8,50,50,earthMapUrl,earthBumpMapUrl);
+    earth = createPlanet("earth",earthRadius,50,50,earthMapUrl,earthBumpMapUrl);
     earth.position.x = earthDistanceToSun;
-    mars = createPlanet("mars",6,50,50,marsMapUrl,marsBumpMapUrl);
+    mars = createPlanet("mars",marsRadius,50,50,marsMapUrl,marsBumpMapUrl);
     mars.position.x = marsDistanceToSun;
-    jupiter = createPlanet("jupiter",15,50,50,jupiterMapUrl);
+    jupiter = createPlanet("jupiter",jupiterRadius,50,50,jupiterMapUrl);
     jupiter.position.x = jupiterDistanceToSun;
-    saturn = createPlanet("saturn",11,50,50,saturnMapUrl);
+    saturn = createPlanet("saturn",saturnRadius,50,50,saturnMapUrl);
     saturn.position.x = saturnDistanceToSun;
-    uranus = createPlanet("uranus",7,50,50,uranusMapUrl);
+    uranus = createPlanet("uranus",uranusRadius,50,50,uranusMapUrl);
     uranus.position.x = uranusDistanceToSun;
-    neptune = createPlanet("neptune",5,50,50,neptuneMapUrl);
+    neptune = createPlanet("neptune",neptuneRadius,50,50,neptuneMapUrl);
     neptune.position.x = neptuneDistanceToSun;
-    pluto = createPlanet("pluto",2,50,50,plutoMapUrl,plutoBumpMapUrl);
+    pluto = createPlanet("pluto",plutoRadius,50,50,plutoMapUrl,plutoBumpMapUrl);
     pluto.position.x = plutoDistanceToSun;
 
 
