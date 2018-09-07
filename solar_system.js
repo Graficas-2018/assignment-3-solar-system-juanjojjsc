@@ -9,6 +9,17 @@ sphereEnvMapped = null,
 orbitControls = null;
 var loader;
 
+var systemGroup = null,
+mercuryGroup = null,
+venusGroup = null,
+earthGroup = null,
+marsGroup = null,
+jupiterGroup = null,
+saturnGroup = null,
+uranusGroup = null,
+neptuneGroup = null,
+plutoGroup = null;
+
 var duration = 20000; // ms
 var currentTime = Date.now();
 
@@ -35,15 +46,30 @@ var neptuneMapUrl = "./images/neptunemap.jpg";
 var plutoMapUrl = "./images/plutomap.jpg";
 var plutoBumpMapUrl = "./images/plutobump.jpg";
 
-var mercuryDistanceToSun = 30;
-var venusDistanceToSun = 60;
-var earthDistanceToSun = 100;
-var marsDistanceToSun = 130;
-var jupiterDistanceToSun = 160;
-var saturnDistanceToSun = 200;
-var uranusDistanceToSun = 240;
-var neptuneDistanceToSun = 280;
-var plutoDistanceToSun = 333;
+// Planet Distance to Sun in Millions of KM
+var mercuryDistanceToSun = 57;
+var venusDistanceToSun = 108;
+var earthDistanceToSun = 149;
+var marsDistanceToSun = 227;
+var jupiterDistanceToSun = 778;
+var saturnDistanceToSun = 1433;
+var uranusDistanceToSun = 2871;
+var neptuneDistanceToSun = 4495;
+var plutoDistanceToSun = 5906;
+
+// Planet Radius in Thousands of Kilometers
+var sunRadius = 69;
+var mercuryRadius = .2;
+var venusRadius = .6;
+var earthRadius = .63;
+var marsRadius = .33;
+var jupiterRadius = 6.9;
+var saturnRadius = 5.8;
+var uranusRadius = 2.5;
+var neptuneRadius = 2.4;
+var plutoRadius = .11;
+
+
 
 
 function animate() {
@@ -54,10 +80,31 @@ function animate() {
     var fract = deltat / duration;
     var angle = Math.PI * 2 * fract;
 
-    // Rotate the sphere group about its Y axis
-    group.rotation.y += angle;
+    //console.log("ANGULLO",angle);
+    //console.log("FRACT",fract);
+
+    // Rotate all the system
+    //systemGroup.rotation.y += angle;
+
+    // Rotate the sun
+    // ?
+
+    // Planet translation around the sun
+    mercuryGroup.rotation.y += 0.0075;
+    venusGroup.rotation.y += 0.0061;
+    earthGroup.rotation.y += 0.0043;
+    marsGroup.rotation.y += angle;
+    jupiterGroup.rotation.y += angle;
+    saturnGroup.rotation.y += angle;
+    uranusGroup.rotation.y += angle;
+    neptuneGroup.rotation.y += angle;
+    plutoGroup.rotation.y += angle;
+
+
+    // Planet rotation on its axis
     mercury.rotation.y += angle;
-    venus.rotation.y += angle;
+    // VENUS ROTATES TO THE OPPOSITE SIDE
+    venus.rotation.y -= angle;
     earth.rotation.y += angle;
     mars.rotation.y += angle;
     jupiter.rotation.y += angle;
@@ -212,12 +259,22 @@ function createScene(canvas) {
 
 
     // Create a group to hold the spheres
-    group = new THREE.Object3D;
-    root.add(group);
+    systemGroup = new THREE.Object3D;
+    root.add(systemGroup);
 
+    // Creathe the Planet Groups
+    mercuryGroup = new THREE.Object3D;
+    venusGroup = new THREE.Object3D;
+    earthGroup = new THREE.Object3D;
+    marsGroup = new THREE.Object3D;
+    jupiterGroup = new THREE.Object3D;
+    saturnGroup = new THREE.Object3D;
+    uranusGroup = new THREE.Object3D;
+    neptuneGroup = new THREE.Object3D;
+    plutoGroup = new THREE.Object3D;
 
     // Create the Planets
-    sun = createPlanet("sun",20,50,50,sunMapUrl);
+    sun = createPlanet("sun",sunRadius,50,50,sunMapUrl);
     mercury = createPlanet("mercury",3,50,50,mercuryMapUrl,mercuryBumpMapUrl);
     mercury.position.x = mercuryDistanceToSun;
     venus = createPlanet("venus",5,50,50,venusMapUrl,venusBumpMapUrl);
@@ -237,6 +294,10 @@ function createScene(canvas) {
     pluto = createPlanet("pluto",2,50,50,plutoMapUrl,plutoBumpMapUrl);
     pluto.position.x = plutoDistanceToSun;
 
+
+
+
+
     // Create the orbits
     var mercuryOrbit = createOrbit('mercury');
     var venusOrbit = createOrbit('venus');
@@ -248,29 +309,42 @@ function createScene(canvas) {
     var neptuneOrbit = createOrbit('neptune');
     var plutoOrbit = createOrbit('pluto');
 
+    mercuryGroup.add(mercury);
+    venusGroup.add(venus);
+    earthGroup.add(earth);
+    marsGroup.add(mars);
+    jupiterGroup.add(jupiter);
+    saturnGroup.add(saturn);
+    uranusGroup.add(uranus);
+    neptuneGroup.add(neptune);
+    plutoGroup.add(pluto);
 
-    group.add(mercuryOrbit);
-    group.add(venusOrbit);
-    group.add(earthOrbit);
-    group.add(marsOrbit);
-    group.add(jupiterOrbit);
-    group.add(saturnOrbit);
-    group.add(uranusOrbit);
-    group.add(neptuneOrbit);
-    group.add(plutoOrbit);
+
+    systemGroup.add(mercuryOrbit);
+    systemGroup.add(venusOrbit);
+    systemGroup.add(earthOrbit);
+    systemGroup.add(marsOrbit);
+    systemGroup.add(jupiterOrbit);
+    systemGroup.add(saturnOrbit);
+    systemGroup.add(uranusOrbit);
+    systemGroup.add(neptuneOrbit);
+    systemGroup.add(plutoOrbit);
+
+
+
 
 
     // Add the mesh to our group
-    group.add(sun);
-    group.add(mercury);
-    group.add(venus);
-    group.add(earth);
-    group.add(mars);
-    group.add(jupiter);
-    group.add(saturn);
-    group.add(uranus);
-    group.add(neptune);
-    group.add(pluto);
+    systemGroup.add(sun);
+    systemGroup.add(mercuryGroup);
+    systemGroup.add(venusGroup);
+    systemGroup.add(earthGroup);
+    systemGroup.add(marsGroup);
+    systemGroup.add(jupiterGroup);
+    systemGroup.add(saturnGroup);
+    systemGroup.add(uranusGroup);
+    systemGroup.add(neptuneGroup);
+    systemGroup.add(plutoGroup);
 
 
 
