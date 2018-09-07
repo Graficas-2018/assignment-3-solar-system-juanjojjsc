@@ -35,6 +35,16 @@ var neptuneMapUrl = "./images/neptunemap.jpg";
 var plutoMapUrl = "./images/plutomap.jpg";
 var plutoBumpMapUrl = "./images/plutobump.jpg";
 
+var mercuryDistanceToSun = 30;
+var venusDistanceToSun = 60;
+var earthDistanceToSun = 100;
+var marsDistanceToSun = 130;
+var jupiterDistanceToSun = 160;
+var saturnDistanceToSun = 200;
+var uranusDistanceToSun = 240;
+var neptuneDistanceToSun = 280;
+var plutoDistanceToSun = 333;
+
 
 function animate() {
 
@@ -119,6 +129,47 @@ function createPlanet(name,x,y,z,planetMapUrl,planetBumpMapUrl)
     return planet;
 }
 
+function createOrbit(name)
+{
+    var orbitGeometry;
+    switch (name) {
+      case 'mercury':
+        orbitGeometry = new THREE.TorusGeometry( mercuryDistanceToSun, 0.1, 16, 800 );
+        break;
+      case 'venus':
+        orbitGeometry = new THREE.TorusGeometry( venusDistanceToSun, 0.1, 16, 800 );
+        break;
+      case 'earth':
+        orbitGeometry = new THREE.TorusGeometry( earthDistanceToSun, 0.1, 16, 800 );
+        break;
+      case 'mars':
+        orbitGeometry = new THREE.TorusGeometry( marsDistanceToSun, 0.1, 16, 800 );
+        break;
+      case 'jupiter':
+        orbitGeometry = new THREE.TorusGeometry( jupiterDistanceToSun, 0.1, 16, 800 );
+        break;
+      case 'saturn':
+        orbitGeometry = new THREE.TorusGeometry( saturnDistanceToSun, 0.1, 16, 800 );
+        break;
+      case 'uranus':
+        orbitGeometry = new THREE.TorusGeometry( uranusDistanceToSun, 0.1, 16, 800 );
+        break;
+      case 'neptune':
+        orbitGeometry = new THREE.TorusGeometry( neptuneDistanceToSun, 0.1, 16, 800 );
+        break;
+      case 'pluto':
+        orbitGeometry = new THREE.TorusGeometry( plutoDistanceToSun, 0.1, 16, 800 );
+        break;
+      default:
+        orbitGeometry = new THREE.TorusGeometry( 30, 0.1, 16, 100 );
+        break;
+    }
+    var material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+    var orbit = new THREE.Mesh( orbitGeometry, material );
+    orbit.rotation.x = Math.PI / 2;
+    return orbit;
+}
+
 
 var directionalLight = null;
 var spotLight = null;
@@ -168,24 +219,45 @@ function createScene(canvas) {
     // Create the Planets
     sun = createPlanet("sun",20,50,50,sunMapUrl);
     mercury = createPlanet("mercury",3,50,50,mercuryMapUrl,mercuryBumpMapUrl);
-    mercury.position.x = 30;
+    mercury.position.x = mercuryDistanceToSun;
     venus = createPlanet("venus",5,50,50,venusMapUrl,venusBumpMapUrl);
-    venus.position.x = 60;
+    venus.position.x = venusDistanceToSun;
     earth = createPlanet("earth",8,50,50,earthMapUrl,earthBumpMapUrl);
-    earth.position.x = 100;
+    earth.position.x = earthDistanceToSun;
     mars = createPlanet("mars",6,50,50,marsMapUrl,marsBumpMapUrl);
-    mars.position.x = 160;
+    mars.position.x = marsDistanceToSun;
     jupiter = createPlanet("jupiter",15,50,50,jupiterMapUrl);
-    jupiter.position.x = 220;
+    jupiter.position.x = jupiterDistanceToSun;
     saturn = createPlanet("saturn",11,50,50,saturnMapUrl);
-    saturn.position.x = 300;
+    saturn.position.x = saturnDistanceToSun;
     uranus = createPlanet("uranus",7,50,50,uranusMapUrl);
-    uranus.position.x = 350;
+    uranus.position.x = uranusDistanceToSun;
     neptune = createPlanet("neptune",5,50,50,neptuneMapUrl);
-    neptune.position.x = 400;
+    neptune.position.x = neptuneDistanceToSun;
     pluto = createPlanet("pluto",2,50,50,plutoMapUrl,plutoBumpMapUrl);
-    pluto.position.x = 444;
+    pluto.position.x = plutoDistanceToSun;
 
+    // Create the orbits
+    var mercuryOrbit = createOrbit('mercury');
+    var venusOrbit = createOrbit('venus');
+    var earthOrbit = createOrbit('earth');
+    var marsOrbit = createOrbit('mars');
+    var jupiterOrbit = createOrbit('jupiter');
+    var saturnOrbit = createOrbit('saturn');
+    var uranusOrbit = createOrbit('uranus');
+    var neptuneOrbit = createOrbit('neptune');
+    var plutoOrbit = createOrbit('pluto');
+
+
+    group.add(mercuryOrbit);
+    group.add(venusOrbit);
+    group.add(earthOrbit);
+    group.add(marsOrbit);
+    group.add(jupiterOrbit);
+    group.add(saturnOrbit);
+    group.add(uranusOrbit);
+    group.add(neptuneOrbit);
+    group.add(plutoOrbit);
 
 
     // Add the mesh to our group
