@@ -13,12 +13,28 @@ var duration = 20000; // ms
 var currentTime = Date.now();
 
 var materials = {};
-var sunMapUrl = "./images/earthmap.jpg";
-var textureMap = null;
-var sunBumpMapUrl = "./images/earthbump.jpg";
-var bumpMap = null;
-var mapUrl = "./images/earthmap.jpg";
 var bgUrl = "./images/milkyway.jpg";
+var sunMapUrl = "./images/sunmap.jpg";
+//var sunBumpMapUrl = "./images/sunbump.jpg";
+var mercuryMapUrl = "./images/mercurymap.jpg";
+var mercuryBumpMapUrl = "./images/mercurybump.jpg";
+var venusMapUrl = "./images/venusmap.jpg";
+var venusBumpMapUrl = "./images/venusbump.jpg";
+var earthMapUrl = "./images/earthmap.jpg";
+var earthBumpMapUrl = "./images/earthbump.jpg";
+var marsMapUrl = "./images/marsmap.jpg";
+var marsBumpMapUrl = "./images/marsbump.jpg";
+var jupiterMapUrl = "./images/jupitermap.jpg";
+//var jupiterBumpMapUrl = "./images/jupiterbump.jpg";
+var saturnMapUrl = "./images/saturnmap.jpg";
+//var saturnBumpMapUrl = "./images/saturnbump.jpg";
+var uranusMapUrl = "./images/uranusmap.jpg";
+//var uranusBumpMapUrl = "./images/uranusbump.jpg";
+var neptuneMapUrl = "./images/neptunemap.jpg";
+//var neptuneBumpMapUrl = "./images/neptunebump.jpg";
+var plutoMapUrl = "./images/plutomap.jpg";
+var plutoBumpMapUrl = "./images/plutobump.jpg";
+
 
 function animate() {
 
@@ -30,6 +46,15 @@ function animate() {
 
     // Rotate the sphere group about its Y axis
     group.rotation.y += angle;
+    mercury.rotation.y += angle;
+    venus.rotation.y += angle;
+    earth.rotation.y += angle;
+    mars.rotation.y += angle;
+    jupiter.rotation.y += angle;
+    saturn.rotation.y += angle;
+    uranus.rotation.y += angle;
+    neptune.rotation.y += angle;
+    pluto.rotation.y += angle;
 
 
 }
@@ -85,7 +110,7 @@ function createPlanet(name,x,y,z,planetMapUrl,planetBumpMapUrl)
       materials[material] = new THREE.MeshPhongMaterial({ map: planetMap });
     } else {
       material = name + "-phong-textured";
-      materials[material] = new THREE.MeshPhongMaterial({ map: planetMap, bumpMap: planetBumpMap, bumpScale: 0.06 });
+      materials[material] = new THREE.MeshPhongMaterial({ map: planetMap, bumpMap: planetBumpMap, bumpScale: 0.5 });
     }
 
     planetGeometry = new THREE.SphereGeometry(x,y,z);
@@ -141,12 +166,39 @@ function createScene(canvas) {
 
 
     // Create the Planets
-    sun = createPlanet("sun",2,50,50,sunMapUrl,sunBumpMapUrl);
+    sun = createPlanet("sun",20,50,50,sunMapUrl);
+    mercury = createPlanet("mercury",3,50,50,mercuryMapUrl,mercuryBumpMapUrl);
+    mercury.position.x = 30;
+    venus = createPlanet("venus",5,50,50,venusMapUrl,venusBumpMapUrl);
+    venus.position.x = 60;
+    earth = createPlanet("earth",8,50,50,earthMapUrl,earthBumpMapUrl);
+    earth.position.x = 100;
+    mars = createPlanet("mars",6,50,50,marsMapUrl,marsBumpMapUrl);
+    mars.position.x = 160;
+    jupiter = createPlanet("jupiter",15,50,50,jupiterMapUrl);
+    jupiter.position.x = 220;
+    saturn = createPlanet("saturn",11,50,50,saturnMapUrl);
+    saturn.position.x = 300;
+    uranus = createPlanet("uranus",7,50,50,uranusMapUrl);
+    uranus.position.x = 350;
+    neptune = createPlanet("neptune",5,50,50,neptuneMapUrl);
+    neptune.position.x = 400;
+    pluto = createPlanet("pluto",2,50,50,plutoMapUrl,plutoBumpMapUrl);
+    pluto.position.x = 444;
 
 
 
     // Add the mesh to our group
-    group.add( sun );
+    group.add(sun);
+    group.add(mercury);
+    group.add(venus);
+    group.add(earth);
+    group.add(mars);
+    group.add(jupiter);
+    group.add(saturn);
+    group.add(uranus);
+    group.add(neptune);
+    group.add(pluto);
 
 
 
