@@ -7,9 +7,19 @@ group = null,
 sphere = null,
 sphereEnvMapped = null,
 orbitControls = null;
+var loader;
 
 var duration = 20000; // ms
 var currentTime = Date.now();
+
+var materials = {};
+var sunMapUrl = "./images/earthmap.jpg";
+var textureMap = null;
+var sunBumpMapUrl = "./images/earthbump.jpg";
+var bumpMap = null;
+var mapUrl = "./images/earthmap.jpg";
+var bgUrl = "./images/milkyway.jpg";
+
 function animate() {
 
     var now = Date.now();
@@ -37,6 +47,7 @@ function run() {
         orbitControls.update();
 }
 
+
 function setLightColor(light, r, g, b)
 {
     r /= 255;
@@ -46,9 +57,6 @@ function setLightColor(light, r, g, b)
     light.color.setRGB(r, g, b);
 }
 
-function toggleLight(light)
-{
-}
 
 function toggleTexture()
 {
@@ -64,11 +72,34 @@ function toggleTexture()
     }
 }
 
+function createPlanet(name,x,y,z,planetMapUrl,planetBumpMapUrl)
+{
+
+    planetMap = new THREE.TextureLoader().load(planetMapUrl);
+    planetBumpMap = new THREE.TextureLoader().load(planetBumpMapUrl);
+
+
+    if (!planetBumpMapUrl)
+    {
+      material = name + "-phong";
+      materials[material] = new THREE.MeshPhongMaterial({ map: planetMap });
+    } else {
+      material = name + "-phong-textured";
+      materials[material] = new THREE.MeshPhongMaterial({ map: planetMap, bumpMap: planetBumpMap, bumpScale: 0.06 });
+    }
+
+    planetGeometry = new THREE.SphereGeometry(x,y,z);
+    planet = new THREE.Mesh(planetGeometry, materials[material]);
+    planet.visible = true;
+    return planet;
+}
+
+
 var directionalLight = null;
 var spotLight = null;
 var pointLight = null;
 var ambientLight = null;
-var mapUrl = "./images/checker_large.gif";
+
 
 function createScene(canvas) {
 
@@ -80,6 +111,11 @@ function createScene(canvas) {
 
     // Create a new Three.js scene
     scene = new THREE.Scene();
+    // Background image
+    var backgroundImg = new THREE.TextureLoader().load(bgUrl);
+    backgroundImg.wrapS = backgroundImg.wrapT = THREE.RepeatWrapping;
+    backgroundImg.repeat.set(1, 1);
+    scene.background = backgroundImg
 
     // Add  a camera so we can view the scene
     camera = new THREE.PerspectiveCamera( 45, canvas.width / canvas.height, 1, 4000 );
@@ -90,56 +126,28 @@ function createScene(canvas) {
     root = new THREE.Object3D;
 
     // Add a directional light to show off the object
-    directionalLight = new THREE.DirectionalLight( 0xffffff, 1);
-
-    // Create and add all the lights
-    directionalLight.position.set(.5, 0, 3);
+    directionalLight = new THREE.DirectionalLight( 0xffffff, 2);
+    directionalLight.position.set(.5, 0, 1);
     root.add(directionalLight);
 
-    pointLight = new THREE.PointLight (0x0000ff, 1, 20);
-    pointLight.position.set(-5, 2, -10);
-    root.add(pointLight);
-
-    spotLight = new THREE.SpotLight (0x00ff00);
-    spotLight.position.set(2, 2, 5);
-    spotLight.target.position.set(2, 0, 4);
-    root.add(spotLight);
-
+    // Add an Ambient Light
     ambientLight = new THREE.AmbientLight ( 0x888888 );
     root.add(ambientLight);
+
 
     // Create a group to hold the spheres
     group = new THREE.Object3D;
     root.add(group);
 
-    var color = 0xffffff;
-    // Create a texture map
 
-    var map = new THREE.TextureLoader().load(mapUrl);
-    map.wrapS = map.wrapT = THREE.RepeatWrapping;
-    map.repeat.set(8, 8);
+    // Create the Planets
+    sun = createPlanet("sun",2,50,50,sunMapUrl,sunBumpMapUrl);
 
-//#
-    // Put in a ground plane to show off the lighting
-    geometry = new THREE.PlaneGeometry(200, 200, 50, 50);
-    var mesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color:color, map:map, side:THREE.DoubleSide}));
-    mesh.rotation.x = -Math.PI / 2;
-    mesh.position.y = -4.02;
+
 
     // Add the mesh to our group
-    group.add( mesh );
-//#
+    group.add( sun );
 
-
-    // Create the sphere geometry
-    geometry = new THREE.SphereGeometry(Math.sqrt(2), 50, 50);
-
-    // And put the geometry and material together into a mesh
-    mesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color:color}));
-    mesh.position.y = 0;
-
-    // Add the mesh to our group
-    group.add( mesh );
 
 
     // Now add the group to our scene
