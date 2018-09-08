@@ -20,11 +20,39 @@ uranusGroup = null,
 neptuneGroup = null,
 plutoGroup = null;
 
+var phobosGroup = null,
+deimosGroup = null,
+ioGroup = null,
+europaGroup = null,
+ganymedeGroup = null,
+callistoGroup = null,
+mimasGroup = null,
+enceladusGroup = null,
+tethysGroup = null,
+dioneGroup = null,
+rheaGroup = null,
+titanGroup = null,
+hyperionGroup = null,
+iapetusGroup = null,
+puckGroup = null,
+mirandaGroup = null,
+arielGroup = null,
+umbrielGroup = null,
+titaniaGroup = null,
+oberonGroup = null,
+proteusGroup = null,
+tritonGroup = null;
+
+var saturnRing = null,
+uranusRing = null,
+neptuneRing = null;
+
+
 var duration = 20000; // ms
 var currentTime = Date.now();
 
 var materials = {};
-var bgUrl = "./images/milkyway.jpg";
+var bgUrl = "./images/mwh.jpg";
 var sunMapUrl = "./images/sunmap.jpg";
 //var sunBumpMapUrl = "./images/sunbump.jpg";
 var mercuryMapUrl = "./images/mercurymap.jpg";
@@ -45,6 +73,11 @@ var neptuneMapUrl = "./images/neptunemap.jpg";
 //var neptuneBumpMapUrl = "./images/neptunebump.jpg";
 var plutoMapUrl = "./images/plutomap.jpg";
 var plutoBumpMapUrl = "./images/plutobump.jpg";
+
+var moonMapUrl = "./images/moonmap.jpg";
+var moonBumpMapUrl = "./images/moonbump.jpg";
+
+
 
 // Planet Distance to Sun in Millions of KM
 var mercuryDistanceToSun = 57;
@@ -69,10 +102,19 @@ var uranusRadius = 25;
 var neptuneRadius = 24;
 var plutoRadius = 1.1;
 
+// Moon Radius
+var earthMoonRadius = 1.7;
+var marsMoonRadius = 0.8;
+var jupiterMoonRadius = 2.6;
+var saturnMoonRadius = 2.3;
+var uranusMoonRadius = 2;
+var neptuneMoonRadius = 2;
+var plutoMoonRadius = 1;
+
 // Planet Rotation Speed in Km/s
 var sunRotation = .002;
-var mercuryRotation = 0.0003;
-var venusRotation = 0.00018;
+var mercuryRotation = 0.03;
+var venusRotation = 0.018;
 var earthRotation = 0.046;
 var marsRotation = 0.024;
 var jupiterRotation = .0126;
@@ -92,16 +134,7 @@ var uranusTranslation = 0.0006;
 var neptuneTranslation = 0.0005;
 var plutoTranslation = 0.0004;
 
-// Planet Satellites
-var mercurySatellites = 0;
-var venusSatelittes = 0;
-var earthSatelittes = 1;
-var marsSatelittes = 2;
-var jupiterSatelittes = 79;
-var saturnSatelittes = 62;
-var uranusSatelittes = 27;
-var neptuneSatelittes = 14;
-var plutoSatelittes = 5; 
+
 
 
 
@@ -109,20 +142,21 @@ var plutoSatelittes = 5;
 
 function animate() {
 
-    var now = Date.now();
-    var deltat = now - currentTime;
-    currentTime = now;
-    var fract = deltat / duration;
-    var angle = Math.PI * 2 * fract;
 
-    //console.log("ANGULLO",angle);
-    //console.log("FRACT",fract);
+    // Planet rotation on its axis
+    sun.rotation.y += sunRotation;
+    mercury.rotation.y += mercuryRotation;
+    // VENUS ROTATES TO THE OPPOSITE SIDE
+    venus.rotation.y -= venusRotation;
+    earth.rotation.y += earthRotation;
+    mars.rotation.y += marsRotation;
+    jupiter.rotation.y += jupiterRotation;
+    saturn.rotation.y += saturnRotation;
+    // URANUS ROTATES ON THE X AXIS
+    uranus.rotation.x += uranusRotation;
+    neptune.rotation.y += neptuneRotation;
+    pluto.rotation.y += plutoRotation;
 
-    // Rotate all the system
-    //systemGroup.rotation.y += angle;
-
-    // Rotate the sun
-    // ?
 
     // Planet translation around the sun in days ^-4 km/s
     mercuryGroup.rotation.y += mercuryTranslation;
@@ -135,20 +169,63 @@ function animate() {
     neptuneGroup.rotation.y += neptuneTranslation;
     plutoGroup.rotation.y += plutoTranslation;
 
+    // Moon translation around the Planet
+    phobosGroup.rotation.y += 0.0004;
+    deimosGroup.rotation.y += 0.004;
 
-    // Planet rotation on its axis
-    sun.rotation.y += sunRotation;
-    mercury.rotation.y += mercuryRotation;
-    // VENUS ROTATES TO THE OPPOSITE SIDE
-    venus.rotation.y -= venusRotation;
-    earth.rotation.y += earthRotation;
-    mars.rotation.y += marsRotation;
-    jupiter.rotation.y += jupiterRotation;
-    saturn.rotation.y += saturnRotation;
-    uranus.rotation.y += uranusRotation;
-    neptune.rotation.y += neptuneRotation;
-    pluto.rotation.y += plutoRotation;
+    ioGroup.rotation.y += 0.004;
+    europaGroup.rotation.y += 0.009;
+    ganymedeGroup.rotation.y += 0.003;
+    callistoGroup.rotation.y += 0.005;
 
+    mimasGroup.rotation.y += 0.001;
+    enceladusGroup.rotation.y += 0.0006;
+    tethysGroup.rotation.y += 0.0045;
+    dioneGroup.rotation.y += 0.0029;
+    rheaGroup.rotation.y += 0.0007;
+    titanGroup.rotation.y += 0.0084;
+    hyperionGroup.rotation.y += 0.001;
+    iapetusGroup.rotation.y += 0.009;
+
+    puckGroup.rotation.z += 0.004;
+    mirandaGroup.rotation.z += 0.007;
+    arielGroup.rotation.z += 0.005;
+    umbrielGroup.rotation.z += 0.009;
+    titaniaGroup.rotation.z += 0.01;
+    oberonGroup.rotation.z += 0.006;
+
+    proteusGroup.rotation.y += 0.009;
+    tritonGroup.rotation.y += 0.0009;
+
+    // Satellites Rotation
+    earthMoon.rotation.y += earthRotation;
+
+    phobos.rotation.y += marsRotation;
+    deimos.rotation.y += marsRotation;
+
+    io.rotation.y += jupiterRotation;
+    europa.rotation.y += jupiterRotation;
+    ganymede.rotation.y += jupiterRotation;
+    callisto.rotation.y += jupiterRotation;
+
+    mimas.rotation.y += saturnRotation;
+    enceladus.rotation.y += saturnRotation;
+    tethys.rotation.y += saturnRotation;
+    dione.rotation.y += saturnRotation;
+    rhea.rotation.y += saturnRotation;
+    titan.rotation.y += saturnRotation;
+    hyperion.rotation.y += saturnRotation;
+    iapetus.rotation.y += saturnRotation;
+
+    puck.rotation.z += uranusRotation;
+    miranda.rotation.z += uranusRotation;
+    ariel.rotation.z += uranusRotation;
+    umbriel.rotation.z += uranusRotation;
+    titania.rotation.z += uranusRotation;
+    oberon.rotation.z += uranusRotation;
+
+    proteus.rotation.y += neptuneRotation;
+    triton.rotation.y += neptuneRotation;
 
 }
 
@@ -253,6 +330,18 @@ function createOrbit(name)
     return orbit;
 }
 
+function createRing(radius,ringWidth,distanceToSun,color,inverted)
+{
+  var ringGeometry = new THREE.TorusGeometry( radius, ringWidth, 2, 200 );
+  var material = new THREE.MeshBasicMaterial( { color: color } );
+  var ring = new THREE.Mesh( ringGeometry, material );
+  if(!inverted) {
+      ring.rotation.x = Math.PI / 2;
+  }
+  ring.position.x = distanceToSun;
+  return ring;
+}
+
 
 var directionalLight = null;
 var spotLight = null;
@@ -309,6 +398,35 @@ function createScene(canvas) {
     neptuneGroup = new THREE.Object3D;
     plutoGroup = new THREE.Object3D;
 
+    // Creathe the Moon Groups
+    phobosGroup = new THREE.Object3D;
+    deimosGroup = new THREE.Object3D;
+    ioGroup = new THREE.Object3D;
+    europaGroup = new THREE.Object3D;
+    ganymedeGroup = new THREE.Object3D;
+    callistoGroup = new THREE.Object3D;
+    mimasGroup = new THREE.Object3D;
+    enceladusGroup = new THREE.Object3D;
+    tethysGroup = new THREE.Object3D;
+    dioneGroup = new THREE.Object3D;
+    rheaGroup = new THREE.Object3D;
+    titanGroup = new THREE.Object3D;
+    hyperionGroup = new THREE.Object3D;
+    iapetusGroup = new THREE.Object3D;
+    puckGroup = new THREE.Object3D;
+    mirandaGroup = new THREE.Object3D;
+    arielGroup = new THREE.Object3D;
+    umbrielGroup = new THREE.Object3D;
+    titaniaGroup = new THREE.Object3D;
+    oberonGroup = new THREE.Object3D;
+    proteusGroup = new THREE.Object3D;
+    tritonGroup = new THREE.Object3D;
+
+
+
+
+
+
     // Create the Planets
     sun = createPlanet("sun",sunRadius,50,50,sunMapUrl);
     mercury = createPlanet("mercury",mercuryRadius,50,50,mercuryMapUrl,mercuryBumpMapUrl);
@@ -331,6 +449,71 @@ function createScene(canvas) {
     pluto.position.x = plutoDistanceToSun;
 
 
+    // Create the Rings radius,ringWidth,distanceToSun,inverted
+    saturnRing = createRing(saturnRadius+50,10,saturnDistanceToSun,0xffe18e);
+    saturnGroup.add(saturnRing);
+    uranusRing = createRing(uranusRadius+50,2,uranusDistanceToSun,0xffffff,true);
+    uranusGroup.add(uranusRing);
+    neptuneRing = createRing(neptuneRadius+40,4,neptuneDistanceToSun,0xffffff);
+    neptuneGroup.add(neptuneRing);
+
+    // Earth Moon
+    earthMoon = createPlanet("moon",earthMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    earthMoon.position.x = 15;
+
+    // Mars Moons
+    phobos = createPlanet("phobos",marsMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    phobos.position.x = 25;
+    deimos = createPlanet("deimos",marsMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    deimos.position.x = 10;
+
+    // Jupiter Moons
+    io = createPlanet("io",jupiterMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    io.position.x = 100;
+    europa = createPlanet("europa",jupiterMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    europa.position.x = 130;
+    ganymede = createPlanet("ganymede",jupiterMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    ganymede.position.x = 200;
+    callisto = createPlanet("callisto",jupiterMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    callisto.position.x = 260;
+
+    // Saturn Moons
+    mimas = createPlanet("mimas",saturnMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    mimas.position.x = 150;
+    enceladus = createPlanet("enceladus",saturnMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    enceladus.position.x = 165;
+    tethys = createPlanet("tethys",saturnMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    tethys.position.x = 180;
+    dione = createPlanet("dione",saturnMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    dione.position.x = 200;
+    rhea = createPlanet("rhea",saturnMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    rhea.position.x = 250;
+    titan = createPlanet("titan",saturnMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    titan.position.x = 350;
+    hyperion = createPlanet("hyperion",saturnMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    hyperion.position.x = 370;
+    iapetus = createPlanet("iapetus",saturnMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    iapetus.position.x = 420;
+
+    // Uranus Moons
+    puck = createPlanet("puck",uranusMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    puck.position.y = 110;
+    miranda = createPlanet("miranda",uranusMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    miranda.position.y = 130;
+    ariel = createPlanet("ariel",uranusMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    ariel.position.y = 150;
+    umbriel = createPlanet("umbriel",uranusMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    umbriel.position.y = 170;
+    titania = createPlanet("titania",uranusMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    titania.position.y = 220;
+    oberon = createPlanet("oberon",uranusMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    oberon.position.y = 250;
+
+    // Neptune Moons
+    proteus = createPlanet("proteus",neptuneMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    proteus.position.x = 100;
+    triton = createPlanet("triton",neptuneMoonRadius,50,50,moonMapUrl,moonBumpMapUrl);
+    triton.position.x = 160;
 
 
 
@@ -356,15 +539,67 @@ function createScene(canvas) {
     plutoGroup.add(pluto);
 
 
-    systemGroup.add(mercuryOrbit);
-    systemGroup.add(venusOrbit);
-    systemGroup.add(earthOrbit);
-    systemGroup.add(marsOrbit);
-    systemGroup.add(jupiterOrbit);
-    systemGroup.add(saturnOrbit);
-    systemGroup.add(uranusOrbit);
-    systemGroup.add(neptuneOrbit);
-    systemGroup.add(plutoOrbit);
+    earth.add(earthMoon);
+
+    phobosGroup.add(phobos);
+    deimosGroup.add(deimos);
+    mars.add(phobosGroup);
+    mars.add(deimosGroup);
+
+    ioGroup.add(io);
+    europaGroup.add(europa);
+    ganymedeGroup.add(ganymede);
+    callistoGroup.add(callisto);
+    jupiter.add(ioGroup);
+    jupiter.add(europaGroup);
+    jupiter.add(ganymedeGroup);
+    jupiter.add(callistoGroup);
+
+    mimasGroup.add(mimas);
+    enceladusGroup.add(enceladus);
+    tethysGroup.add(tethys);
+    dioneGroup.add(dione);
+    rheaGroup.add(rhea);
+    titanGroup.add(titan);
+    hyperionGroup.add(hyperion);
+    iapetusGroup.add(iapetus);
+    saturn.add(mimasGroup);
+    saturn.add(enceladusGroup);
+    saturn.add(tethysGroup);
+    saturn.add(dioneGroup);
+    saturn.add(rheaGroup);
+    saturn.add(titanGroup);
+    saturn.add(hyperionGroup);
+    saturn.add(iapetusGroup);
+
+    puckGroup.add(puck);
+    uranus.add(puckGroup);
+    mirandaGroup.add(miranda);
+    uranus.add(mirandaGroup);
+    arielGroup.add(ariel);
+    uranus.add(arielGroup);
+    umbrielGroup.add(umbriel);
+    uranus.add(umbrielGroup);
+    titaniaGroup.add(titania);
+    uranus.add(titaniaGroup);
+    oberonGroup.add(oberon);
+    uranus.add(oberonGroup);
+
+    proteusGroup.add(proteus);
+    neptune.add(proteusGroup);
+    tritonGroup.add(triton);
+    neptune.add(tritonGroup);
+
+
+    mercuryGroup.add(mercuryOrbit);
+    venusGroup.add(venusOrbit);
+    earthGroup.add(earthOrbit);
+    marsGroup.add(marsOrbit);
+    jupiterGroup.add(jupiterOrbit);
+    saturnGroup.add(saturnOrbit);
+    uranusGroup.add(uranusOrbit);
+    neptuneGroup.add(neptuneOrbit);
+    plutoGroup.add(plutoOrbit);
 
 
 
