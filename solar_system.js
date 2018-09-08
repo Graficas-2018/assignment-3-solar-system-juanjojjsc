@@ -373,14 +373,23 @@ function createScene(canvas) {
     // Create a group to hold all the objects
     root = new THREE.Object3D;
 
-    // Add a directional light to show off the object
-    directionalLight = new THREE.DirectionalLight( 0xffffff, 2);
-    directionalLight.position.set(.5, 0, 1);
-    root.add(directionalLight);
-
+    // // Add a directional light to show off the object
+    // directionalLight = new THREE.DirectionalLight( 0xffffff, 2);
+    // directionalLight.position.set(.5, 0, 1);
+    // root.add(directionalLight);
+    //
     // Add an Ambient Light
     ambientLight = new THREE.AmbientLight ( 0x888888 );
     root.add(ambientLight);
+
+
+    var light = new THREE.PointLight( 0xffffff, 1000, 100 );
+    light.position.set( 100, 100, 100 );
+    light.castShadow = true;
+    light.shadow.bias = 0.001;
+    light.shadow.mapSize.width = 2048;
+    light.shadow.mapSize.height = 2048;
+    root.add( light );
 
 
     // Create a group to hold the spheres
