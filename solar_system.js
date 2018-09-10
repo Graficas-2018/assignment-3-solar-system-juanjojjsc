@@ -105,7 +105,7 @@ var jupiterRadius = 69;
 var saturnRadius = 58;
 var uranusRadius = 25;
 var neptuneRadius = 24;
-var plutoRadius = 1.1;
+var plutoRadius = 6;
 
 // Moon Radius
 var earthMoonRadius = 1.7;
@@ -126,7 +126,7 @@ var jupiterRotation = .0126;
 var saturnRotation = .00987;
 var uranusRotation = .00259;
 var neptuneRotation = .00268;
-var plutoRotation = 0.0013;
+var plutoRotation = 0.007;
 
 // Planet Translation Speed in Km/s ^-4
 var mercuryTranslation = 0.0047;
