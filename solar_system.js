@@ -76,6 +76,7 @@ var plutoBumpMapUrl = "./images/plutobump.jpg";
 
 var moonMapUrl = "./images/moonmap.jpg";
 var moonBumpMapUrl = "./images/moonbump.jpg";
+var asteoridFieldOBJ_URL = "./models/asteroid.obj";
 
 
 
@@ -195,7 +196,7 @@ function animate() {
     oberonGroup.rotation.z += 0.006;
 
     proteusGroup.rotation.y += 0.009;
-    tritonGroup.rotation.y += 0.0009;
+    tritonGroup.rotation.y += 0.004;
 
     // Satellites Rotation
     earthMoon.rotation.y += earthRotation;
@@ -365,26 +366,28 @@ function createScene(canvas) {
     backgroundImg.repeat.set(1, 1);
     scene.background = backgroundImg
 
+
+
     // Add  a camera so we can view the scene
     camera = new THREE.PerspectiveCamera( 45, canvas.width / canvas.height, 1, 4000 );
-    camera.position.set(-2, 6, 12);
+    camera.position.set(-2, 6, 120);
     scene.add(camera);
 
     // Create a group to hold all the objects
     root = new THREE.Object3D;
 
     // // Add a directional light to show off the object
-    // directionalLight = new THREE.DirectionalLight( 0xffffff, 2);
-    // directionalLight.position.set(.5, 0, 1);
-    // root.add(directionalLight);
-    //
-    // Add an Ambient Light
+    directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5);
+    directionalLight.position.set(.5, 0, 1);
+    root.add(directionalLight);
+
+    //Add an Ambient Light
     ambientLight = new THREE.AmbientLight ( 0x888888 );
     root.add(ambientLight);
 
 
-    var light = new THREE.PointLight( 0xffffff, 1000, 100 );
-    light.position.set( 100, 100, 100 );
+    var light = new THREE.PointLight( 0xffffff, 1.5, 0 );
+    light.position.set( 0, 0, 0 );
     light.castShadow = true;
     light.shadow.bias = 0.001;
     light.shadow.mapSize.width = 2048;
@@ -395,6 +398,25 @@ function createScene(canvas) {
     // Create a group to hold the spheres
     systemGroup = new THREE.Object3D;
     root.add(systemGroup);
+
+    //Load OBJ
+    //instantiate a loader
+    // var loader = new THREE.OBJLoader();
+    // loader.setPath('/models/');
+    //
+    //
+    // // load a resource
+    // loader.load(
+	  //    // resource URL
+	  //    'Asteroid.obj',
+	  //     // called when resource is loaded
+	  //      function ( object ) {
+    //
+    //          object.position.y =-10;
+		//          systemGroup.add( object );
+    //
+    //        }
+    //   );
 
     // Creathe the Planet Groups
     mercuryGroup = new THREE.Object3D;
