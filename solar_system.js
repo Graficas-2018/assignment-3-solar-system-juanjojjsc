@@ -47,6 +47,10 @@ var saturnRing = null,
 uranusRing = null,
 neptuneRing = null;
 
+var sunMap = null,
+sunMaterial = null,
+sunGeometry = null;
+
 
 var duration = 20000; // ms
 var currentTime = Date.now();
@@ -295,31 +299,31 @@ function createOrbit(name)
     var orbitGeometry;
     switch (name) {
       case 'mercury':
-        orbitGeometry = new THREE.TorusGeometry( mercuryDistanceToSun, 0.1, 16, 800 );
+        orbitGeometry = new THREE.TorusGeometry( mercuryDistanceToSun, 0.25, 16, 200 );
         break;
       case 'venus':
-        orbitGeometry = new THREE.TorusGeometry( venusDistanceToSun, 0.1, 16, 800 );
+        orbitGeometry = new THREE.TorusGeometry( venusDistanceToSun, 0.25, 16, 200 );
         break;
       case 'earth':
-        orbitGeometry = new THREE.TorusGeometry( earthDistanceToSun, 0.1, 16, 800 );
+        orbitGeometry = new THREE.TorusGeometry( earthDistanceToSun, 0.25, 16, 200 );
         break;
       case 'mars':
-        orbitGeometry = new THREE.TorusGeometry( marsDistanceToSun, 0.1, 16, 800 );
+        orbitGeometry = new THREE.TorusGeometry( marsDistanceToSun, 0.25, 16, 200 );
         break;
       case 'jupiter':
-        orbitGeometry = new THREE.TorusGeometry( jupiterDistanceToSun, 0.1, 16, 800 );
+        orbitGeometry = new THREE.TorusGeometry( jupiterDistanceToSun, 0.25, 16, 200 );
         break;
       case 'saturn':
-        orbitGeometry = new THREE.TorusGeometry( saturnDistanceToSun, 0.1, 16, 800 );
+        orbitGeometry = new THREE.TorusGeometry( saturnDistanceToSun, 0.25, 16, 200 );
         break;
       case 'uranus':
-        orbitGeometry = new THREE.TorusGeometry( uranusDistanceToSun, 0.1, 16, 800 );
+        orbitGeometry = new THREE.TorusGeometry( uranusDistanceToSun, 0.25, 16, 200 );
         break;
       case 'neptune':
-        orbitGeometry = new THREE.TorusGeometry( neptuneDistanceToSun, 0.1, 16, 800 );
+        orbitGeometry = new THREE.TorusGeometry( neptuneDistanceToSun, 0.25, 16, 200 );
         break;
       case 'pluto':
-        orbitGeometry = new THREE.TorusGeometry( plutoDistanceToSun, 0.1, 16, 800 );
+        orbitGeometry = new THREE.TorusGeometry( plutoDistanceToSun, 0.25, 16, 200 );
         break;
       default:
         orbitGeometry = new THREE.TorusGeometry( 30, 0.1, 16, 100 );
@@ -376,14 +380,14 @@ function createScene(canvas) {
     // Create a group to hold all the objects
     root = new THREE.Object3D;
 
-    // // Add a directional light to show off the object
-    directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5);
-    directionalLight.position.set(.5, 0, 1);
-    root.add(directionalLight);
-
-    //Add an Ambient Light
-    ambientLight = new THREE.AmbientLight ( 0x888888 );
-    root.add(ambientLight);
+    // // // Add a directional light to show off the object
+    // directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5);
+    // directionalLight.position.set(.5, 0, 1);
+    // root.add(directionalLight);
+    //
+    // //Add an Ambient Light
+    // ambientLight = new THREE.AmbientLight ( 0x888888 );
+    // root.add(ambientLight);
 
 
     var light = new THREE.PointLight( 0xffffff, 1.5, 0 );
@@ -456,10 +460,14 @@ function createScene(canvas) {
 
 
 
-
+    // Create the Sun with Basic Material
+    sunMap = new THREE.TextureLoader().load(sunMapUrl);
+    sunMaterial = new THREE.MeshBasicMaterial({ map: sunMap });
+    sunGeometry = new THREE.SphereGeometry(sunRadius,50,50);
+    sun = new THREE.Mesh(sunGeometry, sunMaterial);
+    sun.visible = true;
 
     // Create the Planets
-    sun = createPlanet("sun",sunRadius,50,50,sunMapUrl);
     mercury = createPlanet("mercury",mercuryRadius,50,50,mercuryMapUrl,mercuryBumpMapUrl);
     mercury.position.x = mercuryDistanceToSun;
     venus = createPlanet("venus",venusRadius,50,50,venusMapUrl,venusBumpMapUrl);
