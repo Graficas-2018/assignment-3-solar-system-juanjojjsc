@@ -18,7 +18,8 @@ jupiterGroup = null,
 saturnGroup = null,
 uranusGroup = null,
 neptuneGroup = null,
-plutoGroup = null;
+plutoGroup = null,
+asteroidGroup = null;
 
 var phobosGroup = null,
 deimosGroup = null,
@@ -51,6 +52,11 @@ var sunMap = null,
 sunMaterial = null,
 sunGeometry = null;
 
+var asteroidMap = null,
+asteroidMaterial = null,
+asteroidGeometry = null,
+asteroid = null;
+
 
 var duration = 20000; // ms
 var currentTime = Date.now();
@@ -81,6 +87,7 @@ var plutoBumpMapUrl = "./images/plutobump.jpg";
 var moonMapUrl = "./images/moonmap.jpg";
 var moonBumpMapUrl = "./images/moonbump.jpg";
 var asteoridFieldOBJ_URL = "./models/asteroid.obj";
+var asteroidMapUrl = "./images/asteroidmap.jpg";
 
 
 
@@ -161,6 +168,9 @@ function animate() {
     uranus.rotation.x += uranusRotation;
     neptune.rotation.y += neptuneRotation;
     pluto.rotation.y += plutoRotation;
+
+    // Asteroid Translation
+    asteroidGroup.rotation.y += 0.002;
 
 
     // Planet translation around the sun in days ^-4 km/s
@@ -466,6 +476,35 @@ function createScene(canvas) {
     sunGeometry = new THREE.SphereGeometry(sunRadius,50,50);
     sun = new THREE.Mesh(sunGeometry, sunMaterial);
     sun.visible = true;
+
+    // Asteroid
+    asteroidGroup = new THREE.Object3D;
+    asteroidMap = new THREE.TextureLoader().load(asteroidMapUrl);
+    asteroidMaterial = new THREE.MeshBasicMaterial({ map: asteroidMap });
+    asteroidGeometry = new THREE.SphereGeometry(1,50,50);
+
+
+    for (i = 0; i < 1000; i++)
+    {
+      var randomX = Math.floor(Math.random()*((jupiterDistanceToSun - 100) - (marsDistanceToSun+100)) + (marsDistanceToSun+100));
+      randomX *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+      var randomY = Math.floor(Math.random()*((60) - (1)) + (1));
+      randomY *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+      var randomZ = Math.floor(Math.random()*((340) - (1)) + (1));
+      randomZ *= Math.floor(Math.random()*2) == 1 ? 1 : -1;
+      asteroid = new THREE.Mesh(asteroidGeometry, asteroidMaterial);
+      asteroid.visible = true;
+      asteroid.position.x = randomX;
+      asteroid.position.y = randomY;
+      asteroid.position.z = randomZ;
+      asteroidGroup.add(asteroid);
+    }
+
+
+    systemGroup.add(asteroidGroup);
+
+
+
 
     // Create the Planets
     mercury = createPlanet("mercury",mercuryRadius,50,50,mercuryMapUrl,mercuryBumpMapUrl);
